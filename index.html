@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#12100d">
+  <meta name="description" content="Experimento interativo que transforma a proporção áurea e a sequência de Fibonacci em música.">
+  <title>Harmonia Áurea — Φ em música</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Manrope:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="brand" href="#inicio" aria-label="Harmonia Áurea — início"><span>Φ</span> Harmonia Áurea</a>
+    <nav aria-label="Navegação principal">
+      <a href="#experimento">Experimento</a><a href="#entenda">Entenda</a><a href="#sala">Sala São Paulo</a>
+    </nav>
+    <button class="sound-status" id="soundStatus" aria-label="Estado do áudio"><i></i> Áudio pronto</button>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="hero-copy">
+        <p class="eyebrow"><span>01</span> Matemática que se escuta</p>
+        <h1>Existe uma proporção<br>capaz de soar <em>bonita?</em></h1>
+        <p class="lede">Transformamos a razão áurea e a sequência de Fibonacci em frequências, ritmos e uma espiral viva. Coloque os fones e compare.</p>
+        <a class="primary-btn" href="#experimento">Iniciar experimento <span>↓</span></a>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <canvas id="heroCanvas"></canvas>
+        <div class="phi-mark"><b>1,618</b><span>proporção áurea</span></div>
+      </div>
+      <div class="hero-foot"><span>Sala São Paulo · Matemática</span><span>Role para explorar</span></div>
+    </section>
+
+    <section class="lab" id="experimento">
+      <div class="section-heading">
+        <div><p class="eyebrow"><span>02</span> Laboratório sonoro</p><h2>Ouça a matemática<br>em movimento.</h2></div>
+        <p>Os mesmos instrumentos, o mesmo andamento. Só muda a regra que escolhe as notas. Qual sequência parece mais harmoniosa para você?</p>
+      </div>
+
+      <div class="mode-switch" role="group" aria-label="Escolha da sequência">
+        <button class="mode active" data-mode="golden" aria-pressed="true"><span class="mode-num">A</span><span><b>Sequência áurea</b><small>Fibonacci + razão Φ</small></span></button>
+        <button class="mode" data-mode="random" aria-pressed="false"><span class="mode-num">B</span><span><b>Sequência aleatória</b><small>Notas sem proporção</small></span></button>
+      </div>
+
+      <div class="synth-card">
+        <div class="visualizer-wrap">
+          <canvas id="visualizer" aria-label="Visualizador da música em forma de espiral"></canvas>
+          <div class="canvas-label"><span id="vizMode">ESPIRAL DE FIBONACCI</span><span>ANÁLISE EM TEMPO REAL</span></div>
+          <div class="now-note"><small>NOTA ATUAL</small><strong id="currentNote">—</strong><span id="currentFreq">0 Hz</span></div>
+        </div>
+        <div class="controls">
+          <div class="transport">
+            <button id="playBtn" class="play-btn" aria-label="Tocar sequência"><span class="play-icon">▶</span></button>
+            <div><small id="playLabel">PRONTO PARA OUVIR</small><strong id="sequenceName">Sequência Áurea</strong></div>
+            <div class="timer"><span id="elapsed">00:00</span><span>/ 00:24</span></div>
+          </div>
+          <div class="progress"><i id="progressBar"></i></div>
+          <div class="sliders">
+            <label>Andamento <output id="tempoOut">92 BPM</output><input id="tempo" type="range" min="60" max="140" value="92"></label>
+            <label>Volume <output id="volumeOut">70%</output><input id="volume" type="range" min="0" max="100" value="70"></label>
+          </div>
+          <div class="data-row"><div><small>RAZÃO</small><b id="ratioValue">Φ = 1,618</b></div><div><small>PASSOS</small><b id="stepValue">0 / 16</b></div><div><small>FORMA DE ONDA</small><b>Triangular</b></div></div>
+        </div>
+      </div>
+      <p class="hint"><span>↗</span> Dica: alterne entre A e B enquanto a sequência toca. A troca acontece na próxima nota.</p>
+    </section>
+
+    <section class="explain" id="entenda">
+      <div class="section-heading light">
+        <div><p class="eyebrow"><span>03</span> Por trás do som</p><h2>De números<br>a notas musicais.</h2></div>
+        <p>O experimento não afirma que Φ cria uma escala musical “perfeita”. Ele mostra, de forma artística, como uma regra matemática pode organizar padrões sonoros.</p>
+      </div>
+      <div class="steps">
+        <article><span>01</span><div class="mini fib">1 · 1 · 2 · 3 · 5 · 8</div><h3>Começamos com Fibonacci</h3><p>Cada termo é a soma dos dois anteriores. A razão entre termos consecutivos se aproxima de Φ.</p></article>
+        <article><span>02</span><div class="formula"><i>f</i><sub>n</sub> = 220 × Φ<sup>n/6</sup></div><h3>Convertemos em frequência</h3><p>Usamos 220 Hz como base e multiplicamos por potências fracionárias de Φ, trazendo o resultado para uma faixa audível.</p></article>
+        <article><span>03</span><div class="mini bars"><i></i><i></i><i></i><i></i><i></i><i></i></div><h3>Desenhamos o que ouvimos</h3><p>O analisador captura a intensidade de cada frequência e a posiciona sobre uma espiral áurea em tempo real.</p></article>
+      </div>
+      <div class="quote"><span>“</span><blockquote>A matemática é a música da razão.</blockquote><cite>— James Joseph Sylvester, matemático</cite></div>
+    </section>
+
+    <section class="sala" id="sala">
+      <div class="sala-copy"><p class="eyebrow"><span>04</span> A conexão</p><h2>Da arquitetura<br>para a acústica.</h2><p>Na Sala São Paulo, proporção, repetição e ritmo aparecem na arquitetura — nos arcos, colunas, vãos e ornamentos. Este experimento leva essa conversa visual para o campo do som.</p><div class="facts"><div><b>1999</b><span>inauguração da sala</span></div><div><b>1.484</b><span>lugares</span></div><div><b>Φ</b><span>ordem e harmonia</span></div></div></div>
+      <div class="arch" aria-hidden="true"><div class="arch-line a1"></div><div class="arch-line a2"></div><div class="arch-line a3"></div><div class="arch-line a4"></div><span>Ritmo visual · ritmo sonoro</span></div>
+    </section>
+
+    <section class="closing">
+      <p>Agora que você ouviu…</p><h2>Qual sequência<br>pareceu mais <em>harmoniosa?</em></h2><a href="#experimento" class="primary-btn inverse">Ouvir novamente <span>↑</span></a>
+    </section>
+  </main>
+  <footer><a class="brand" href="#inicio"><span>Φ</span> Harmonia Áurea</a><p>Experimento educativo · Sala São Paulo</p><p>Feito com matemática, código e som.</p></footer>
+  <script src="app.js"></script>
+</body>
+</html>
