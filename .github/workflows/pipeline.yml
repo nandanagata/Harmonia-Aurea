@@ -1,0 +1,73 @@
+name: CI/CD - Harmonia Aurea
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    name: CI - Verificar site
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o codigo
+        uses: actions/checkout@v6
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          package-manager-cache: false
+
+      - name: Verificar arquivos do site
+        run: |
+          for arquivo in index.html styles.css app.js; do
+            if [ ! -s "$arquivo" ]; then
+              echo "::error file=$arquivo::Arquivo ausente ou vazio"
+              exit 1
+            fi
+            echo "Arquivo verificado: $arquivo"
+          done
+
+      - name: Verificar sintaxe do JavaScript
+        run: node --check app.js
+
+  deploy:
+    name: CD - Publicar no GitHub Pages
+    needs: ci
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    concurrency:
+      group: github-pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.publicacao.outputs.page_url }}
+    steps:
+      - name: Baixar o codigo
+        uses: actions/checkout@v6
+
+      - name: Configurar GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Separar arquivos para publicacao
+        run: |
+          mkdir dist
+          cp index.html styles.css app.js dist/
+
+      - name: Enviar artefato do site
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist
+
+      - name: Publicar site
+        id: publicacao
+        uses: actions/deploy-pages@v4
